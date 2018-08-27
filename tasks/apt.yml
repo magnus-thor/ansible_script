@@ -1,0 +1,6 @@
+---
+- name: Update all packages to the latest versions
+      apt: update_cache=yes
+      sudo: yes
+      
+        
