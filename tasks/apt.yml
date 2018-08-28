@@ -1,6 +1,28 @@
 ---
+- name: Add the PPA for rvm
+  apt_repository: repo=ppa:rael-gc/rvm state=present
+  become: yes
 - name: Update all packages to the latest versions
-      apt: update_cache=yes
-      sudo: yes
-      
-        
+  apt: update_cache=yes
+  sudo: yes
+- name: Install Ruby Dependencies
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - git-core
+    - curl
+    - zlib1g-dev
+    - build-essential
+    - libssl-dev
+    - libreadline-dev
+    - libyaml-dev
+    - libsqlite3-dev
+    - sqlite3
+    - libxml2-dev
+    - libxslt1-dev
+    - libcurl4-openssl-dev
+    - software-properties-common
+    - libffi-dev
+    - nodejs
+    - yarn
+    - rvm

@@ -3,57 +3,9 @@
   remote_user: root
   become: yes
   tasks:
-    - name: Update all packages to the latest versions
-      apt:
-        upgrade: dist
-    - name: Add deploy user
-      user:
-        name: deploy
-        shell: /bin/bash
-    - name: Add SSH keys to server for deploy user
-      authorized_key:
-        user: deploy
-        key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCrzAZdCs3TZvEbaze4TFxM923kwoqAH9UIAxq1DJn9Qkhe4OGrNqCm7vFZUmqU+EQXpknmd8PYKXL88L+PtIuvRDuq0cTlnT0gKlEWJcAsfPoj8wH1xH1jDXQZVaOGh3ah8tPCDX3v+EKgrjrJb8W97yWZ9fulcRuzafsW9vNiqAwJR8QCbFZDGNd3TdO1g74X8aoV8Cqa0dIZVJyypnayyV66B0GgcdpDO5XTEd9rdyu2gfT0k6RXeWsJm4sYFQdQo53X1p8LJTmoXhI6PzMBZEOkaOuinYffCAp80bBHmbkCWQ5RPr7ymb5Nd7pdq9Zop7Duk4LcRc2XzPEi5v22RPTCxHfVe7mvJFVZzp1tIkbQ2sHqIKo05uz1uukPYvpQIJ4c2QSSdGzJkr9aS4FnwmwPVR0YG+b/xgH7XwcsVK4xATVaATxJpg1J9RtPAhedyvmc4friJZ1AGHdAP+2YGyXsnFxrtdHsIfOt6fA2WshIWkOizgKnvb2Dz6aDd+JASMRLyfw33r4kybZNLSAlbjbO4IGFvJHISWnjfnGeAgIQpjWQT5ZdxAc+zdjZIGidVkEldVNYKu9eXSJy2IvGZ1/rLon+ZixV2pQnMQdDaBqymI5n1xJdwm+zKMj+5lqRnDnWTqqg4duaPcQAmKlO3m7jY5jrHHXT+23t4EJJiw== magnus.thor.ar@gmail.com
-    - name: Install Ruby Dependencies
-      apt:
-        name: "{{ item }}"
-      with_items:
-        - git-core
-        - curl
-        - zlib1g-dev
-        - build-essential
-        - libssl-dev
-        - libreadline-dev
-        - libyaml-dev
-        - libsqlite3-dev
-        - sqlite3
-        - libxml2-dev
-        - libxslt1-dev
-        - libcurl4-openssl-dev
-        - software-properties-common
-        - libffi-dev
-        - nodejs
-        - yarn
-    - name: Download ruby-install
-      become: no
-      get_url:
-        url: https://github.com/postmodern/ruby-install/archive/v0.6.1.tar.gz
-        dest: /home/deploy/ruby-install-0.6.1.tar.gz
-    - name: Extract ruby-install tarball
-      become: no
-      unarchive: 
-        src: /home/deploy/ruby-install-0.6.1.tar.gz
-        dest: /home/deploy
-        creates: /home/deploy/ruby-install-0.6.1
-        remote_src: yes
-    - name: Install ruby-install
-      make:
-        chdir: /home/deploy/ruby-install-0.6.1
-        target: install
-    - name: Install Ruby
-      become_user: deploy
-      command: /usr/local/bin/ruby-install --no-install-deps ruby 2.5.0
-      args:
-        creates: /home/deploy.rubies/ruby-2.5.0
-
-
+    - include: tasks/deploy_user.yml
+  remote_user: deploy
+  become: yes
+  tasks:
+    - include: tasks/apt.yml
+    - include: tasks/ror.yml
