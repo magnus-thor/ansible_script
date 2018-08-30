@@ -9,10 +9,8 @@
     key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCrzAZdCs3TZvEbaze4TFxM923kwoqAH9UIAxq1DJn9Qkhe4OGrNqCm7vFZUmqU+EQXpknmd8PYKXL88L+PtIuvRDuq0cTlnT0gKlEWJcAsfPoj8wH1xH1jDXQZVaOGh3ah8tPCDX3v+EKgrjrJb8W97yWZ9fulcRuzafsW9vNiqAwJR8QCbFZDGNd3TdO1g74X8aoV8Cqa0dIZVJyypnayyV66B0GgcdpDO5XTEd9rdyu2gfT0k6RXeWsJm4sYFQdQo53X1p8LJTmoXhI6PzMBZEOkaOuinYffCAp80bBHmbkCWQ5RPr7ymb5Nd7pdq9Zop7Duk4LcRc2XzPEi5v22RPTCxHfVe7mvJFVZzp1tIkbQ2sHqIKo05uz1uukPYvpQIJ4c2QSSdGzJkr9aS4FnwmwPVR0YG+b/xgH7XwcsVK4xATVaATxJpg1J9RtPAhedyvmc4friJZ1AGHdAP+2YGyXsnFxrtdHsIfOt6fA2WshIWkOizgKnvb2Dz6aDd+JASMRLyfw33r4kybZNLSAlbjbO4IGFvJHISWnjfnGeAgIQpjWQT5ZdxAc+zdjZIGidVkEldVNYKu9eXSJy2IvGZ1/rLon+ZixV2pQnMQdDaBqymI5n1xJdwm+zKMj+5lqRnDnWTqqg4duaPcQAmKlO3m7jY5jrHHXT+23t4EJJiw== magnus.thor.ar@gmail.com
 - name: adduser deploy sudo
   shell: adduser deploy sudo
-- name: make deploy user passwordless
-  shell: echo "deploy  ALL=(ALL:ALL)   NOPASSWD: ALL" > /etc/sudoers.d/deploy
-- name: create .ssh directory
-  shell: mkdir ~/.ssh
-- name: copy shh keys
-	shell: sudo cat /root/.ssh/authorized_keys > .ssh/authorized_keys
-- name: change ownership of .ssh
+- name: create deploy sudoers file
+  shell: touch /etc/sudoers.d/deploy
+- lineinfile:
+    path: /etc/sudoers.d/deploy
+    line: "deploy  ALL=(ALL:ALL)   NOPASSWD: ALL"

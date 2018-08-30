@@ -1,5 +1,5 @@
 ---
 - name: install ruby
-  shell: /usr/share/rvm/bin/rvm install --default ruby-2.4.3 creates=~/.rvm/rubies/ruby-2.4.3
+  shell: /usr/share/rvm/bin/rvm install --default ruby-2.4.3 creates=/home/deploy/.rvm/rubies/ruby-2.4.3
 - name: install rails
-  shell: gem install rails
+  command:  bash -lc "gem install rails"

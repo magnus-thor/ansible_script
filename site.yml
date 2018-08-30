@@ -5,7 +5,8 @@
   tasks:
     - include: tasks/deploy_user.yml
   remote_user: deploy
-  become: yes
   tasks:
     - include: tasks/apt.yml
     - include: tasks/ror.yml
+    - include: tasks/security.yml
+    - include: tasks/passenger_nginx.yml

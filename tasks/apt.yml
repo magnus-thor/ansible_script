@@ -3,9 +3,11 @@
   apt_repository: repo=ppa:rael-gc/rvm state=present
   become: yes
 - name: Update all packages to the latest versions
-  apt: update_cache=yes
   sudo: yes
+  apt: update_cache=yes
 - name: Install Ruby Dependencies
+  sudo: yes
+  become: yes
   apt:
     name: "{{ item }}"
   with_items:
@@ -26,3 +28,4 @@
     - nodejs
     - yarn
     - rvm
+
