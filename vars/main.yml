@@ -1,0 +1,4 @@
+---
+db_user: deploy
+db_name: D-pressed_production
+db_password: deploy
