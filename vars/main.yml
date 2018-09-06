@@ -2,3 +2,5 @@
 db_user: deploy
 db_name: D-pressed_production
 db_password: deploy
+app_name: D-pressed
+ruby_version: ruby-2.4.3

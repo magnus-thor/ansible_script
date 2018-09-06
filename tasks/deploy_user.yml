@@ -14,3 +14,8 @@
 - lineinfile:
     path: /etc/sudoers.d/deploy
     line: "deploy  ALL=(ALL:ALL)   NOPASSWD: ALL"
+- lineinfile:
+    path: /etc/ssh/sshd_config 
+    line: "PermitUserEnvironment yes"
+- name: allow ssh user without login
+  command: bash -lc "env | grep rvm > ~/.ssh/environment"

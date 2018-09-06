@@ -1,5 +1,32 @@
 ---
-- name: install ruby
-  shell: /usr/share/rvm/bin/rvm install --default ruby-2.4.3 creates=/home/deploy/.rvm/rubies/ruby-2.4.3
+- name: Install ruby version
+  command: bash -c "rvm install {{ ruby_version }}"
+
 - name: install rails
   command:  bash -lc "gem install rails"
+
+- name: create application folder
+  file: 
+    path: /var/www/{{ app_name }} 
+    state: directory
+    owner: deploy
+    group: www-data
+    mode: 0775
+    recurse: yes
+
+- name: create application files
+  copy:
+    content: ""
+    dest: /var/www/D-pressed/shared/config/{{ item }}
+  with_items:
+    - database.yml
+    - master.key
+    - secrets.yml
+
+- name: copy files to server
+  copy:
+    src: ../D-pressed/config/{{ item }}
+    dest: /var/www/D-pressed/shared/config/{{ item }}
+  with_items:
+    - database.yml
+    - master.key

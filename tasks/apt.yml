@@ -2,9 +2,20 @@
 - name: Add the PPA for rvm
   apt_repository: repo=ppa:rael-gc/rvm state=present
   become: yes
+
+- name: get yarn pubkey
+  become: yes
+  command:  bash -lc "curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -"
+
+- name: add yarn to apt sources
+  become: yes
+  command:  bash -lc "echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list"
+
+
 - name: Update all packages to the latest versions
   sudo: yes
   apt: update_cache=yes
+
 - name: Install Ruby Dependencies
   sudo: yes
   become: yes
@@ -28,4 +39,7 @@
     - nodejs
     - yarn
     - rvm
+    - postgresql
+    - libpq-dev
+    - python-psycopg2
 

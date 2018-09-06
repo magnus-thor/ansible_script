@@ -19,8 +19,7 @@
     - include: tasks/passenger_nginx.yml
 
 - hosts: rails
-  remote_user: postgres
-  become: yes
+  remote_user: deploy
   gather_facts: no
   vars_files:
     - vars/main.yml

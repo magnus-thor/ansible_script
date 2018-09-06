@@ -24,7 +24,7 @@
 # Nginx and passenger configuration.
 - name: Copy Nginx configuration into place.
   template:
-    src: nginx.conf
+    src: templates/nginx.conf
     dest: /etc/nginx/sites-available/default
   notify: restart nginx
 

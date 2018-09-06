@@ -1,0 +1,7 @@
+---
+- hosts: rails
+  become: true
+  roles:
+    - role: rvm_io.rvm1-ruby
+      rvm1_rubies:
+        - ruby-2.4.3
